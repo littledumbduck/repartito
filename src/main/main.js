@@ -163,13 +163,41 @@ function buildMenu() {
     { label: 'Avisarme con notificaciones', type: 'checkbox', checked: cfg.notify !== false, click: (i) => { cfg.notify = i.checked; saveCfg(); } },
     { label: 'Mostrar restaurante y mi casa en el mapa', type: 'checkbox', checked: cfg.geocode !== false, click: (i) => { cfg.geocode = i.checked; saveCfg(); if (cfg.provider === 'glovo') startProvider('glovo'); } },
     { label: 'Abrir al encender el PC', type: 'checkbox', checked: app.getLoginItemSettings().openAtLogin, click: (i) => app.setLoginItemSettings({ openAtLogin: i.checked }) },
+    { label: 'Buscar actualizaciones automáticamente', type: 'checkbox', checked: cfg.autoUpdate !== false, click: (i) => { cfg.autoUpdate = i.checked; saveCfg(); } },
+    { label: 'Buscar actualizaciones ahora', click: () => (app.isPackaged ? ipcMain.emit('check-updates') : notify('Las actualizaciones solo funcionan en la app instalada.')) },
+    { label: `Repartito ${app.getVersion()}`, enabled: false },
     { label: 'Acerca de y aviso legal', click: () => shell.openExternal(require('../../package.json').homepage + '#aviso-legal') },
     { label: 'Salir de Repartito', click: () => app.quit() },
   ]);
 }
 
+// ---- actualizaciones automáticas desde las releases de GitHub (solo en la app instalada) ----
+let manualCheck = false;
+function notify(body) { if (Notification.isSupported()) new Notification({ title: 'Repartito', body }).show(); }
+function setupUpdates() {
+  if (!app.isPackaged) return;
+  const { autoUpdater } = require('electron-updater');
+  autoUpdater.autoDownload = true;
+  autoUpdater.autoInstallOnAppQuit = true; // se instala sola al cerrar Repartito
+  autoUpdater.on('update-available', (i) => { if (manualCheck) notify(`Hay una versión nueva (${i.version}). Descargándola…`); });
+  autoUpdater.on('update-not-available', () => { if (manualCheck) notify(`Ya tienes la última versión (${app.getVersion()}).`); manualCheck = false; });
+  autoUpdater.on('error', () => { if (manualCheck) notify('No se pudo comprobar las actualizaciones. Inténtalo más tarde.'); manualCheck = false; });
+  autoUpdater.on('update-downloaded', (i) => {
+    manualCheck = false;
+    if (!Notification.isSupported()) return;
+    const n = new Notification({ title: 'Repartito', body: `Versión ${i.version} lista. Se instalará al cerrar Repartito; toca aquí para instalarla ya.` });
+    n.on('click', () => autoUpdater.quitAndInstall());
+    n.show();
+  });
+  const check = () => autoUpdater.checkForUpdates().catch(() => {});
+  setTimeout(() => cfg.autoUpdate !== false && check(), 15000); // tras arrancar
+  setInterval(() => cfg.autoUpdate !== false && check(), 6 * 3600 * 1000);
+  ipcMain.on('check-updates', () => { manualCheck = true; check(); });
+}
+
 app.whenReady().then(() => {
   cfg = loadCfg();
+  setupUpdates();
   createPet();
   tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '..', '..', 'assets', 'tray.png')));
   tray.setToolTip('Repartito');

@@ -1,21 +1,33 @@
 {
   "name": "repartito",
   "productName": "Repartito",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Una mascota de escritorio que te cuenta cómo va tu pedido a domicilio. Proyecto no oficial.",
   "main": "src/main/main.js",
   "author": "Repartito contributors",
   "license": "MIT",
   "homepage": "https://github.com/littledumbduck/repartito",
-  "repository": { "type": "git", "url": "git+https://github.com/littledumbduck/repartito.git" },
-  "bugs": { "url": "https://github.com/littledumbduck/repartito/issues" },
-  "keywords": ["electron", "desktop-pet", "delivery", "overlay", "glovo"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/littledumbduck/repartito.git"
+  },
+  "bugs": {
+    "url": "https://github.com/littledumbduck/repartito/issues"
+  },
+  "keywords": [
+    "electron",
+    "desktop-pet",
+    "delivery",
+    "overlay",
+    "glovo"
+  ],
   "scripts": {
     "start": "electron .",
     "icons": "node scripts/make-icons.js",
     "dist": "npm run icons && electron-builder --win"
   },
   "dependencies": {
+    "electron-updater": "^6.8.11",
     "leaflet": "1.9.4"
   },
   "devDependencies": {
@@ -25,8 +37,20 @@
   "build": {
     "appId": "com.repartito.app",
     "productName": "Repartito",
-    "files": ["src/**/*", "assets/**/*", "node_modules/leaflet/dist/**/*", "LICENSE", "package.json"],
-    "win": { "target": ["nsis"], "icon": "assets/icon.png" },
+    "publish": [{ "provider": "github", "owner": "littledumbduck", "repo": "repartito" }],
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "node_modules/leaflet/dist/**/*",
+      "LICENSE",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/icon.png"
+    },
     "artifactName": "Repartito-Instalador-${version}.exe",
     "nsis": {
       "oneClick": true,

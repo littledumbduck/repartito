@@ -32,6 +32,9 @@ Y ya está. La próxima vez que hagas un pedido, el zorrito aparecerá solo.
 ### ¿Quieres verlo antes de hacer un pedido?
 En la ventana de bienvenida pulsa **Ver cómo funciono (demostración)**: simula un pedido de 75 segundos.
 
+### ¿Se actualiza solo?
+Sí. Repartito mira en GitHub si hay una versión nueva al arrancar y cada 6 horas, la descarga en segundo plano y te avisa con una notificación. Se instala sola la próxima vez que cierres Repartito (o toca la notificación para instalarla ya). No pierdes tus ajustes ni el historial. Clic derecho en el zorrito → *Buscar actualizaciones ahora* o desactivar *Buscar actualizaciones automáticamente*.
+
 ### Si algo no va
 | Problema | Solución |
 |---|---|
@@ -64,6 +67,7 @@ La **web de Glovo solo da la ventana de llegada estimada**. La posición del rep
 - **Tu contraseña no pasa por Repartito.** Inicias sesión en la página oficial de Glovo, dentro de una ventana de la app. Solo se guarda en tu equipo la sesión que Glovo crea, como en cualquier navegador. *Cerrar sesión y borrar mis datos* la elimina.
 - **Sin telemetría.** No hay servidores ni analítica de Repartito.
 - **Servicios externos que se contactan:**
+  - `github.com` → comprobar si hay una versión nueva y descargarla. No se envía ningún dato tuyo, solo la petición normal de la release. Se desactiva desde el menú.
   - `glovoapp.com` → leer tu pedido (con tu sesión).
   - `nominatim.openstreetmap.org` → convertir las direcciones del pedido en puntos del mapa. Recibe el texto de la dirección del restaurante y la tuya, solo para esa consulta, sin guardarlo. Se puede desactivar: clic derecho → *Mostrar restaurante y mi casa en el mapa*.
   - `valhalla1.openstreetmap.de` → calcular la ruta en moto. Recibe solo las coordenadas del restaurante y de tu casa. Se desactiva junto con el punto anterior.
@@ -120,10 +124,10 @@ Un proveedor es un módulo con `start(emit, opciones)` que devuelve una función
 
 ### Publicar una versión
 ```bash
-git tag v0.1.0
+git tag v0.1.1     # el número debe coincidir con "version" de package.json
 git push --tags
 ```
-El workflow *Release* construye el instalador en GitHub y lo adjunta a la release.
+El workflow *Release* construye el instalador en GitHub y lo adjunta a la release junto con `latest.yml` y el `.blockmap`, que son los archivos que usan las apps instaladas para actualizarse. **Sube siempre `version` en `package.json` antes de etiquetar**; si no, las apps no ven la actualización.
 
 Más detalles en [CONTRIBUTING.md](CONTRIBUTING.md).
 
