@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'self'">
+<style>
+  html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; font-family: "Segoe UI", system-ui, sans-serif; user-select: none; }
+  #root { position: absolute; left: 0; right: 0; bottom: 4px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  #bubble { max-width: 240px; background: #fff; color: #222; padding: 10px 14px; border-radius: 16px; font-size: 14px; line-height: 1.3;
+    box-shadow: 0 4px 14px rgba(0,0,0,.25); position: relative; cursor: pointer; text-align: center; }
+  #bubble::after { content: ""; position: absolute; left: 50%; margin-left: -8px; bottom: -8px; border: 8px solid transparent; border-top-color: #fff; border-bottom: 0; }
+  #eta { display: block; margin-top: 4px; font-size: 12px; color: #777; }
+
+  #pet { width: 110px; height: 110px; cursor: pointer; filter: drop-shadow(0 4px 6px rgba(0,0,0,.3)); animation: bob 2.4s ease-in-out infinite; }
+  #sprite { width: 100%; height: 100%; transition: transform .15s; overflow: visible; }
+  #sprite.left { transform: scaleX(-1); }
+
+  /* piernas y cola */
+  .leg { transform-box: fill-box; transform-origin: 50% 0; }
+  .tail { transform-box: fill-box; transform-origin: 0% 100%; animation: wag 1.2s ease-in-out infinite; }
+  body.walking #pet { animation: hop .36s ease-in-out infinite; }
+  body.walking .legA { animation: step .36s linear infinite; }
+  body.walking .legB { animation: step .36s linear infinite reverse; }
+  body.walking .tail { animation-duration: .4s; }
+  body.delivered #pet { animation: jump .5s ease-in-out infinite; }
+  body.arriving #bubble { animation: pulse .8s ease-in-out infinite; }
+
+  /* cogido del cogote: cuelga, balancea y patalea */
+  #pet { cursor: grab; touch-action: none; }
+  body.dragging #pet { cursor: grabbing; animation: dangle .55s ease-in-out infinite; transform-origin: 50% 8%; }
+  body.dragging .legA { animation: kick .22s ease-in-out infinite alternate; }
+  body.dragging .legB { animation: kick .22s ease-in-out infinite alternate-reverse; }
+  body.dragging .tail { animation-duration: .3s; }
+  body.dragging #bubble { opacity: .55; }
+  /* al soltarlo: aplasta al caer y rebota */
+  body.land #pet { animation: land .5s ease-out 1; transform-origin: 50% 100%; }
+  @keyframes dangle { 0%, 100% { transform: translateY(-8px) rotate(-9deg); } 50% { transform: translateY(-8px) rotate(9deg); } }
+  @keyframes kick { from { transform: rotate(-30deg); } to { transform: rotate(30deg); } }
+  @keyframes land { 0% { transform: translateY(-14px); } 40% { transform: scale(1.18, .78); } 65% { transform: scale(.94, 1.08) translateY(-6px); } 100% { transform: none; } }
+  @keyframes bob { 50% { transform: translateY(-4px); } }
+  @keyframes hop { 50% { transform: translateY(-7px); } }
+  @keyframes step { 0%,100% { transform: rotate(28deg); } 50% { transform: rotate(-28deg); } }
+  @keyframes wag { 50% { transform: rotate(22deg); } }
+  @keyframes jump { 50% { transform: translateY(-24px) rotate(-5deg); } }
+  @keyframes pulse { 50% { transform: scale(1.05); } }
+</style>
+</head>
+<body class="idle">
+<div id="root">
+  <div id="bubble" class="hit" role="status" aria-live="polite" title="Haz clic para ver el mapa"><span id="text">…</span><span id="eta"></span></div>
+  <div id="pet" class="hit">
+    <!-- zorrito repartidor: mira a la derecha; se voltea con .left -->
+    <svg id="sprite" viewBox="0 0 120 100" aria-label="Mascota Repartito">
+      <path class="tail" d="M22 66 Q2 56 8 38 Q24 44 30 60 Z" fill="#e8741a"/>
+      <path d="M12 42 Q8 38 8 38 Q14 36 18 44 Z" fill="#fff"/>
+      <g class="leg legB"><rect x="38" y="78" width="9" height="18" rx="4.5" fill="#b85a10"/></g>
+      <g class="leg legA"><rect x="82" y="78" width="9" height="18" rx="4.5" fill="#b85a10"/></g>
+      <ellipse cx="60" cy="68" rx="36" ry="22" fill="#f58a24"/>
+      <ellipse cx="62" cy="76" rx="22" ry="12" fill="#ffe2c2"/>
+      <g class="leg legA"><rect x="48" y="78" width="9" height="18" rx="4.5" fill="#e8741a"/></g>
+      <g class="leg legB"><rect x="72" y="78" width="9" height="18" rx="4.5" fill="#e8741a"/></g>
+      <!-- mochila de reparto -->
+      <rect x="34" y="42" width="34" height="26" rx="5" fill="#2b7de9"/>
+      <rect x="34" y="42" width="34" height="7" rx="3" fill="#1c5fb8"/>
+      <!-- cabeza -->
+      <path d="M72 30 L78 10 L90 26 Z" fill="#e8741a"/><path d="M92 26 L102 10 L108 32 Z" fill="#e8741a"/>
+      <circle cx="90" cy="46" r="24" fill="#f58a24"/>
+      <path d="M72 52 Q90 76 108 52 Q100 66 90 66 Q80 66 72 52 Z" fill="#fff"/>
+      <circle cx="82" cy="44" r="3.4" fill="#281e1e"/><circle cx="99" cy="44" r="3.4" fill="#281e1e"/>
+      <ellipse cx="108" cy="54" rx="4.5" ry="3.5" fill="#281e1e"/>
+    </svg>
+  </div>
+</div>
+<script src="pet.js"></script>
+</body>
+</html>

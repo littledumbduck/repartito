@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'self'">
+<title>Bienvenido a Repartito</title>
+<style>
+  body { margin: 0; padding: 28px 32px; font: 17px/1.5 "Segoe UI", system-ui, sans-serif; color: #222; background: #fffaf0; }
+  h1 { font-size: 28px; margin: 0 0 4px; }
+  .sub { color: #555; margin: 0 0 20px; }
+  ol { padding-left: 0; list-style: none; counter-reset: p; margin: 0 0 18px; }
+  li { counter-increment: p; display: flex; gap: 12px; margin-bottom: 14px; }
+  li::before { content: counter(p); flex: none; width: 32px; height: 32px; border-radius: 50%; background: #f58a24; color: #fff;
+    display: grid; place-items: center; font-weight: 700; }
+  button { font: inherit; font-weight: 600; padding: 14px 20px; border-radius: 12px; border: 0; cursor: pointer; width: 100%; margin-bottom: 10px; }
+  button:focus-visible { outline: 3px solid #2b7de9; outline-offset: 2px; }
+  .main { background: #f58a24; color: #fff; font-size: 19px; }
+  .main:hover { background: #e07818; }
+  .alt { background: #fff; border: 2px solid #ddd; color: #333; }
+  label { display: flex; gap: 10px; align-items: center; margin: 14px 0; cursor: pointer; }
+  input[type=checkbox] { width: 22px; height: 22px; }
+  small { color: #666; display: block; line-height: 1.4; }
+</style>
+</head>
+<body>
+<h1>🦊 ¡Hola! Soy Repartito</h1>
+<p class="sub">Cuando pidas en Glovo, aparezco en una esquina de tu pantalla y te cuento cómo va tu pedido.</p>
+
+<ol>
+  <li><div><b>Inicia sesión en Glovo una sola vez.</b><br>Se abre la página oficial de Glovo. Entra con tu cuenta como siempre y luego cierra esa ventana.</div></li>
+  <li><div><b>Haz tu pedido con normalidad.</b><br>Desde el móvil o el ordenador, como siempre.</div></li>
+  <li><div><b>Yo me encargo del resto.</b><br>Aparezco solo mientras tengas un pedido en marcha. Haz clic en mí para ver el mapa.</div></li>
+</ol>
+
+<button class="main" id="login">1. Iniciar sesión en Glovo</button>
+<button class="alt" id="demo">Ver cómo funciono (demostración)</button>
+
+<label><input type="checkbox" id="auto" checked> Abrir Repartito al encender el ordenador</label>
+
+<button class="alt" id="done">Listo, empezar</button>
+<small>Repartito no guarda tu contraseña: la escribes en la web oficial de Glovo. Para cerrarme o ajustarme, busca el zorrito en los iconos junto al reloj (puede estar bajo la flecha ^) y haz clic derecho.</small>
+
+<script src="welcome.js"></script>
+</body>
+</html>

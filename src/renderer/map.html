@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' data: https://tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self'">
+<link rel="stylesheet" href="../../node_modules/leaflet/dist/leaflet.css">
+<style>
+  html, body { margin: 0; height: 100%; font-family: "Segoe UI", system-ui, sans-serif; }
+  #bar { position: absolute; z-index: 1000; top: 10px; left: 50px; right: 10px; background: #fff; padding: 8px 12px; border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.3); font-size: 14px; }
+  #map { height: 100%; }
+</style>
+</head>
+<body>
+<div id="bar">Cargando…</div>
+<div id="map"></div>
+<script src="../../node_modules/leaflet/dist/leaflet.js"></script>
+<script src="map.js"></script>
+</body>
+</html>

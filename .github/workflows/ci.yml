@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Comprobar sintaxis
+        run: |
+          for f in src/main/*.js src/main/providers/*.js src/preload.js src/renderer/*.js scripts/*.js; do
+            node --check "$f"
+          done

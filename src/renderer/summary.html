@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'self'">
+<title>Resumen de tu pedido</title>
+<style>
+  body { margin: 0; padding: 26px 30px; font: 17px/1.5 "Segoe UI", system-ui, sans-serif; color: #222; background: #fffaf0; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .big { font-size: 20px; color: #b85a10; font-weight: 600; margin: 0 0 18px; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  li { background: #fff; border: 1px solid #f0e2c8; border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
+  .empty { color: #666; }
+  button { font: inherit; font-weight: 600; padding: 10px 16px; border-radius: 10px; border: 2px solid #ddd; background: #fff; cursor: pointer; margin-top: 8px; }
+  button:focus-visible { outline: 3px solid #2b7de9; outline-offset: 2px; }
+  small { display: block; color: #777; margin-top: 14px; line-height: 1.4; }
+</style>
+</head>
+<body>
+<h1>🦊 Resumen de tu pedido</h1>
+<p class="big" id="one"></p>
+<ul id="lines"></ul>
+<p><button id="hist">Ver historial de pedidos</button></p>
+<small>Los tiempos son los que Repartito ha podido ver en la web de Glovo. Glovo no indica cuándo termina de cocinar el restaurante, así que ese tramo va incluido en "asignado hasta recogida".</small>
+<script src="summary.js"></script>
+</body>
+</html>

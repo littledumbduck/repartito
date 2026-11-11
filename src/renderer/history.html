@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'self'">
+<title>Historial de pedidos</title>
+<style>
+  body { margin: 0; padding: 26px 30px; font: 16px/1.5 "Segoe UI", system-ui, sans-serif; color: #222; background: #fffaf0; }
+  h1 { font-size: 26px; margin: 0 0 14px; }
+  details { background: #fff; border: 1px solid #f0e2c8; border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
+  summary { cursor: pointer; font-weight: 600; }
+  summary:focus-visible { outline: 3px solid #2b7de9; outline-offset: 2px; }
+  summary small { display: block; font-weight: 400; color: #b85a10; }
+  ul { margin: 10px 0 0; padding-left: 20px; }
+  li { margin-bottom: 6px; }
+  .empty { color: #666; }
+</style>
+</head>
+<body>
+<h1>🦊 Historial de pedidos</h1>
+<div id="list"></div>
+<script src="history.js"></script>
+</body>
+</html>
